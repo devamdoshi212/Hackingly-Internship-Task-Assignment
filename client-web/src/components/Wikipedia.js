@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { validationSchema } from "../schema";
 
 const Wikipedia = () => {
+  const [searchResult, setSearchResult] = useState();
+  const [loading, setLoading] = useState(false);
+
   const SumbitHandler = async (searchTerm) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -25,6 +28,7 @@ const Wikipedia = () => {
     );
     const result = await response.json();
     console.log(result);
+    setSearchResult(result.data);
   };
   const formik = useFormik({
     initialValues: {
@@ -37,10 +41,14 @@ const Wikipedia = () => {
       SumbitHandler(values.searchTerm);
     },
   });
-
+  useEffect(() => {
+    formik.values.searchTerm = "";
+    setLoading(false);
+    setSearchResult();
+  }, []);
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+    <div className="min-h-screen mx-8 px-56 items-center justify-center bg-gray-100">
+      <div className="max-w-screen-lg w-full p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold mb-4 text-center">
           Wikipedia Search
         </h1>
@@ -72,6 +80,20 @@ const Wikipedia = () => {
           ) : null}
         </form>
       </div>
+      {searchResult && (
+        <div>
+          <h2>Total Links: {searchResult.count}</h2>
+          <ul>
+            {searchResult.visitedPages.map((link, index) => (
+              <li key={index}>
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

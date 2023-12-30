@@ -5,13 +5,13 @@ module.exports = function (req, res, next) {
       next();
     } else {
       res.status(400).json({
-        message: "not authenticated ",
+        message: "Not authenticated",
       });
     }
   } catch (err) {
     console.log(err);
-    res.status(400).json({
-      message: err,
+    res.status(500).json({
+      message: "Internal Server Error",
     });
   }
 };
