@@ -76,7 +76,9 @@ Explore the number of requests and the list of visited pages.
 ## Screenshots
 
 ### Home Page
-![Home Page]()
+![pic-1](https://github.com/devamdoshi212/Hackingly-Internship-Task-Assignment/assets/119748867/88ce3a5f-02e3-4431-9f60-66eac6039de7)
+### Searching State Page
+![pic-2](https://github.com/devamdoshi212/Hackingly-Internship-Task-Assignment/assets/119748867/f34f5d2c-7b6e-499a-ad9f-c7a05b9f8dc2)
+### Final Result Page
+![pic-3](https://github.com/devamdoshi212/Hackingly-Internship-Task-Assignment/assets/119748867/002a27f9-89ba-46c1-a268-3b567fda12b3)
 
-### Results Page
-![Result Page]()
