@@ -19,7 +19,6 @@ async function search(req, res) {
       if (
         searchTerm.split("https://en.wikipedia.org")[1] === "/wiki/Philosophy"
       ) {
-        console.log("Reached Philosophy page!");
         break;
       }
       const searchResponse = await fetch(searchTerm);
@@ -40,7 +39,7 @@ async function search(req, res) {
 
       if (firstWikiLink) {
         searchTerm = `https://en.wikipedia.org${firstWikiLink}`;
-        console.log(searchTerm);
+        // console.log(searchTerm);
       }
       count++;
     }
@@ -53,7 +52,7 @@ async function search(req, res) {
       message: "Success",
     });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({
       message: "Internal Server Error",
     });

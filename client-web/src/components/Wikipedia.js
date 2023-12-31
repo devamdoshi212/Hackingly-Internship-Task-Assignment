@@ -27,8 +27,8 @@ const Wikipedia = () => {
       requestOptions
     );
     const result = await response.json();
-    console.log(result);
     setSearchResult(result.data);
+    setLoading(false);
   };
   const formik = useFormik({
     initialValues: {
@@ -36,8 +36,7 @@ const Wikipedia = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("Submitted:", values);
-
+      setLoading(true);
       SumbitHandler(values.searchTerm);
     },
   });
@@ -80,9 +79,19 @@ const Wikipedia = () => {
           ) : null}
         </form>
       </div>
+      {loading && (
+        <div>
+          <h1 className="text-2xl font-semibold mb-4 text-center">
+            Loading ...
+          </h1>
+        </div>
+      )}
       {searchResult && (
         <div>
-          <h2>Total Links: {searchResult.count}</h2>
+          <h1 className="text-2xl font-semibold mb-4 text-center">
+            The number of requests required to reach the "Philosophy" page:
+            {searchResult.count}
+          </h1>
           <ul>
             {searchResult.visitedPages.map((link, index) => (
               <li key={index}>
