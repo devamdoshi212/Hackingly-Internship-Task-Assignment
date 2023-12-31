@@ -78,31 +78,49 @@ const Wikipedia = () => {
             <div className="text-red-500 mt-2">{formik.errors.searchTerm}</div>
           ) : null}
         </form>
+
+        {loading && (
+          <div>
+            <h1 className="text-2xl font-semibold mb-4 text-center">
+              Loading ...
+            </h1>
+          </div>
+        )}
+
+        {searchResult && (
+          <div>
+            <h1 className="text-2xl font-semibold mb-4 text-center">
+              The number of requests required to reach the "Philosophy" page:
+              {searchResult.count}
+            </h1>
+
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">#</th>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Visited Page
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchResult.visitedPages.map((link, index) => (
+                  <tr key={index}>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {index + 1}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      <a href={link} target="_blank" rel="noopener noreferrer">
+                        {link}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-      {loading && (
-        <div>
-          <h1 className="text-2xl font-semibold mb-4 text-center">
-            Loading ...
-          </h1>
-        </div>
-      )}
-      {searchResult && (
-        <div>
-          <h1 className="text-2xl font-semibold mb-4 text-center">
-            The number of requests required to reach the "Philosophy" page:
-            {searchResult.count}
-          </h1>
-          <ul>
-            {searchResult.visitedPages.map((link, index) => (
-              <li key={index}>
-                <a href={link} target="_blank" rel="noopener noreferrer">
-                  {link}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
