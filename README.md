@@ -22,3 +22,61 @@ In Wikipedia, there is a well-known phenomenon called the "Wikipedia Loop," wher
 - **Make API Request:** Use a tool like Postman to make a POST request to the API endpoint with the Wikipedia URL as a parameter.
 - **Receive Response:** The API will respond with the path of visited pages and the total number of requests to reach the "Philosophy" page.
 
+## Tech Stack
+
+- **Frontend:** React.js
+- **Backend:** Node.js, Express.js
+- **Parsing:** Cheerio library for HTML parsing
+- **HTTP Requests:** Fetch API on the frontend, node-fetch on the backend
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm installed
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/devamdoshi212/Hackingly-Internship-Task-Assignment
+cd Hackingly-Internship-Task-Assignment
+```
+2. Install dependencies for both frontend and backend:
+   
+    - Install backend dependencies
+    ```bash
+    npm install 
+    ```
+    - Install frontend dependencies
+    ```bash
+    cd client-web
+    npm install
+    ```
+
+3. Start the development servers:
+    - Start backend server
+    ```bash
+    npm start
+    ```
+    - Start frontend server
+   ```bash
+    cd client-web
+    npm start
+   ```
+
+4. Open your browser and go to http://localhost:3000 to use the application.
+
+## Usage
+Enter a Wikipedia URL in the input field.
+Click the "Search" button to see the results.
+Explore the number of requests and the list of visited pages.
+
+## Screenshots
+
+### Home Page
+![Home Page]()
+
+### Results Page
+![Result Page]()
