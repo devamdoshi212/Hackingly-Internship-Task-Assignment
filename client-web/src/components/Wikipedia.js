@@ -5,7 +5,7 @@ import { validationSchema } from "../schema";
 const Wikipedia = () => {
   const [searchResult, setSearchResult] = useState();
   const [loading, setLoading] = useState(false);
-
+  const [URL, setURL] = useState("");
   const SumbitHandler = async (searchTerm) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -27,7 +27,7 @@ const Wikipedia = () => {
       requestOptions
     );
     const result = await response.json();
-    setSearchResult(result.data);
+    setSearchResult(result);
     setLoading(false);
   };
   const formik = useFormik({
@@ -37,6 +37,7 @@ const Wikipedia = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       setLoading(true);
+      setURL(values.searchTerm);
       SumbitHandler(values.searchTerm);
     },
   });
@@ -86,12 +87,18 @@ const Wikipedia = () => {
             </h1>
           </div>
         )}
-
-        {searchResult && (
+        {!loading && searchResult && searchResult.status !== 200 && (
           <div>
             <h1 className="text-2xl font-semibold mb-4 text-center">
-              The number of requests required to reach the "Philosophy" page:
-              {searchResult.count}
+              {searchResult.message}
+            </h1>
+          </div>
+        )}
+        {!loading && searchResult && searchResult.status === 200 && (
+          <div>
+            <h1 className="text-2xl font-semibold mb-4 text-center">
+              The number of requests required to reach the "Philosophy" page
+              from this URL {"(" + URL + ") "}: {searchResult.data.count}
             </h1>
 
             <table className="w-full border-collapse border border-gray-300">
@@ -104,7 +111,7 @@ const Wikipedia = () => {
                 </tr>
               </thead>
               <tbody>
-                {searchResult.visitedPages.map((link, index) => (
+                {searchResult.data.visitedPages.map((link, index) => (
                   <tr key={index}>
                     <td className="border border-gray-300 px-4 py-2">
                       {index + 1}

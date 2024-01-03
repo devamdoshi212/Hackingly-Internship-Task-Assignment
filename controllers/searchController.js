@@ -11,19 +11,14 @@ async function search(req, res) {
     }
 
     let visitedPages = new Set();
-
+    let unableToGetPath = 0;
     let count = 0;
 
-    while (!visitedPages.has(searchTerm)) {
-      visitedPages.add(searchTerm);
-      if (
-        searchTerm.split("https://en.wikipedia.org")[1] === "/wiki/Philosophy"
-      ) {
-        break;
-      }
+    while (searchTerm !== "https://en.wikipedia.org/wiki/Philosophy") {
       const searchResponse = await fetch(searchTerm);
       if (!searchResponse.ok) {
-        return res.status(searchResponse.status).json({
+        return res.json({
+          status: 500,
           message: "Failed to retrieve data from Wikipedia",
         });
       }
@@ -39,21 +34,35 @@ async function search(req, res) {
 
       if (firstWikiLink) {
         searchTerm = `https://en.wikipedia.org${firstWikiLink}`;
-        // console.log(searchTerm);
       }
+      if (visitedPages.has(searchTerm)) {
+        unableToGetPath = 1;
+        break;
+      }
+      visitedPages.add(searchTerm);
+
       count++;
     }
 
-    res.status(200).json({
-      data: {
-        count: count,
-        visitedPages: Array.from(visitedPages),
-      },
-      message: "Success",
-    });
+    if (unableToGetPath) {
+      res.json({
+        status: 201,
+        message: "Unable to get path to reach philosophy page.",
+      });
+    } else {
+      res.json({
+        status: 200,
+        data: {
+          count: count,
+          visitedPages: Array.from(visitedPages),
+        },
+        message: "Success",
+      });
+    }
   } catch (err) {
     console.log(err);
-    res.status(500).json({
+    res.json({
+      status: 500,
       message: "Internal Server Error",
     });
   }
